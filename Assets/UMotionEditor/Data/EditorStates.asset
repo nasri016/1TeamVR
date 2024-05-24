@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GeneralStates:
     LoadedProjectGUID:
-      valueInternal: cbcb0fca191caa64aab6c6fadc4571cc
+      valueInternal: 
     RecentlyOpenedProjectPath:
       valueInternal: Assets\Resources\Jaeheum\Umotion
     RecentlyOpenedProjectGUIDsList:
