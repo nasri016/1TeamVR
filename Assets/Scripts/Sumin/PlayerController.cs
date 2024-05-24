@@ -1,36 +1,45 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace eneru7i
 {
     /// <summary>
-    /// 플레이어를 컨트롤하는 코드
+    /// 플레이어 컨트롤러
     /// </summary>
     public class PlayerController : MonoBehaviour
     {
+        //플레이어
         public GameObject player;
+        //카메라
         public Camera mainCamera;
-        // 마우스 감도
+        //마우스 감도
         public float mouseSensitivity = 100f;
         //이동속도
         float speed = 3f;
-        // 카메라 회전 제한 각도
+        //카메라 상하 각도
         float xRotation = 0f;
-        //Rigidbody 컴포넌트
+        //리지드바디
         Rigidbody rb;
-        //땅에 닿았나 여부
+        //땅에 닿는지 여부
         bool isGround = true;
-        //땅을 기는가의 여부
+        //달리는지 여부
+        bool isRunning = false;
+        //앉아가는지 여부
         bool isCrouch = false;
-        // 플레이어 원래 높이
+        //원래 키
         float originalHeight;
-        // 플레이어 앉았을 때 높이
+        //앉은 키
         public float crouchHeight = 0.8f;
-        // 플레이어의 콜라이더
+        //컬라이더
         CapsuleCollider playerCollider;
+        //인풋시스템 
+        private Vector2 moving;
+        private Vector2 look;
+        private bool jump;
+        private bool interact;
 
         void Start()
         {
-            // 플레이어와 카메라를 설정
             if (player == null)
             {
                 player = this.gameObject;
@@ -40,14 +49,14 @@ namespace eneru7i
             {
                 mainCamera = Camera.main;
             }
-            // Rigidbody 컴포넌트 할당
+
             rb = player.GetComponent<Rigidbody>();
             if (rb == null)
             {
                 rb = player.AddComponent<Rigidbody>();
             }
             rb.constraints = RigidbodyConstraints.FreezeRotation;
-            // 콜라이더 할당 및 높이 설정
+
             playerCollider = player.GetComponent<CapsuleCollider>();
             if (playerCollider == null)
             {
@@ -57,48 +66,48 @@ namespace eneru7i
         }
 
         /// <summary>
-        /// 플레이어 움직임 종합
+        /// 플레이어 움직임 모음
         /// </summary>
         void Update()
         {
-            Rotate();
-            Move();
-            Jump();
-            Crouch();
+            Look();
             Interact();
+            Move();
+            if (jump)
+            {
+                Jump();
+            }
         }
 
-        #region 마우스 사용
+        #region 플레이어 조작
         /// <summary>
-        /// 플레이어 회전하는 함수
+        /// 마우스로 화면 조작
         /// </summary>
-        void Rotate()
+        public void Look()
         {
-            // 마우스 입력 받기
-            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+            // 마우스 입력 값을 받아옵니다.
+            float mouseX = look.x * mouseSensitivity * Time.deltaTime;
+            float mouseY = look.y * mouseSensitivity * Time.deltaTime;
 
-            // 몸체 좌우 회전
+            // 플레이어를 수평 방향으로 회전합니다.
             player.transform.Rotate(Vector3.up * mouseX);
 
-            // 카메라 상하 회전
+            // 카메라를 수직 방향으로 회전합니다.
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -60f, 60f);
             mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         }
 
-    /// <summary>
-    /// 클릭시 상호작용
-    /// </summary>
-    void Interact()
+        /// <summary>
+        /// 클릭시 상호작용
+        /// </summary>
+        public void Interact()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (interact)
             {
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                //5f 거리 내 상호작용이 가능한 물체가 있을 경우
+                Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
                 if (Physics.Raycast(ray, out RaycastHit hit, 5f))
                 {
-                    int hitLayer = hit.collider.gameObject.layer;
                     if (hit.collider.CompareTag("Object"))
                     {
                         Debug.Log("interacting");
@@ -106,79 +115,157 @@ namespace eneru7i
                 }
             }
         }
-        #endregion
 
-        #region 키보드 사용
         /// <summary>
-        /// 플레이어가 움직이는 함수
+        /// 플레이어 이동
         /// </summary>
-        void Move()
+        public void Move()
         {
-            {
-                // 좌우 입력에 따라 이동
-                float moveX = Input.GetAxis("Horizontal");
-                float moveZ = Input.GetAxis("Vertical");
-                //쉬프트 누르면 이동속도 2배
-                float speedGain = Input.GetKey(KeyCode.LeftShift)? 2 : 1;
-                // 앉으면 이동속도 감소
-                float currentSpeed = isCrouch ? speed * 0.5f : speed;
-
-                // 이동 벡터를 로컬 좌표계로 변환
-                Vector3 move = transform.right * moveX + transform.forward * moveZ;
-
-                // 이동 속도에 따라 변화             
-                transform.position += move * currentSpeed * speedGain * Time.deltaTime;
-            }
+            float moveX = moving.x;
+            float moveZ = moving.y;
+            //달리기 여부에 따라 이동속도 증가
+            float speedGain = isRunning ? 2 : 1;
+            //숙이기 여부에 따라 이동속도 감소
+            float currentSpeed = isCrouch ? speed * 0.5f : speed;
+            //이동속도 계산
+            Vector3 move = transform.right * moveX + transform.forward * moveZ;
+            transform.position += move * currentSpeed * speedGain * Time.deltaTime;
         }
 
         /// <summary>
-        /// 플레이어 점프하는 스크립트
+        /// 점프
         /// </summary>
-        void Jump()
+        public void Jump()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && isGround && !isCrouch)
+            if (isGround && !isCrouch)
             {
-                // 플레이어에 위쪽 방향으로 힘을 가해 점프
                 rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
                 isGround = false;
             }
+            jump = false;
         }
 
         /// <summary>
-        /// 땅을 기는 스크립트
+        /// 달리기
         /// </summary>
-        void Crouch()
+        public void Running()
         {
-            //땅을 안길경우
-            if (!isCrouch)              
+            if (!isRunning && isGround)
             {
-                if (Input.GetKeyDown(KeyCode.C) && isGround)
-                {
-                    // 앉는 상태로 변경
-                    playerCollider.height = crouchHeight;
-                    isCrouch = true;
-                }              
+                isRunning = true;
             }
-            //땅을 길 경우
-            else
+            else if (isGround)
             {
-                if ((Input.GetKeyDown(KeyCode.C)|| Input.GetKeyDown(KeyCode.Space)) && isGround)
-                {
-                    // 앉지 않는 상태로 변경
-                    playerCollider.height = originalHeight;
-                    isCrouch = false;
-                }
+                isRunning = false;
+            }
+        }
+
+        /// <summary>
+        /// 숙이기
+        /// </summary>
+        public void Crouch()
+        {
+            ///숙이기
+            if (!isCrouch && isGround)
+            {
+                playerCollider.height = crouchHeight;
+                isCrouch = true;
+            }
+            ///일어서기
+            else if (isGround)
+            {
+                playerCollider.height = originalHeight;
+                isCrouch = false;
+            }
+        }
+        #endregion
+
+        // Unity Events 메서드
+        #region unity event
+
+        /// <summary>
+        /// 이동 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            moving = context.ReadValue<Vector2>();
+        }
+
+        /// <summary>
+        /// 시선전환 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnLook(InputAction.CallbackContext context)
+        {
+            look = context.ReadValue<Vector2>();
+        }
+
+        /// <summary>
+        /// 점프 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                jump = true;
+            }
+        }
+
+        /// <summary>
+        /// 달리기 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnRun(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                // 달리기 상태를 설정합니다.
+                Running();
+            }
+            else if (context.canceled)
+            {
+                // 달리기 상태를 해제합니다.
+                isRunning = false;
+            }
+        }
+
+        /// <summary>
+        /// 기어가기 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnCrouch(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                Crouch();
+            }
+        }
+
+        /// <summary>
+        /// 상호작용 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                interact = true;
+            }
+            else if (context.canceled)
+            {
+                interact = false;
             }
         }
         #endregion
 
         /// <summary>
-        /// 충돌 관련 스크립트들
+        /// 물체 충돌 이벤트
         /// </summary>
         /// <param name="collision"></param>
         void OnCollisionEnter(Collision collision)
         {
-            // 충돌한 객체가 땅이면 isGround를 true로 설정
             if (collision.gameObject.CompareTag("Untagged"))
             {
                 isGround = true;
