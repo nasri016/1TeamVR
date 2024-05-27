@@ -20,6 +20,8 @@ namespace eneru7i
         float xRotation = 0f;
         //리지드바디
         Rigidbody rb;
+        //애니메이터
+        Animator animator;
         //땅에 닿는지 여부
         bool isGround = true;
         //달리는지 여부
@@ -27,9 +29,9 @@ namespace eneru7i
         //앉아가는지 여부
         bool isCrouch = false;
         //원래 키
-        float originalHeight;
+        public float originalHeight;
         //앉은 키
-        public float crouchHeight = 0.8f;
+        public float crouchHeight;
         //컬라이더
         CapsuleCollider playerCollider;
         //인풋시스템 
@@ -63,6 +65,8 @@ namespace eneru7i
                 playerCollider = player.AddComponent<CapsuleCollider>();
             }
             originalHeight = playerCollider.height;
+
+            animator = player.GetComponent<Animator>();
         }
 
         /// <summary>
@@ -108,7 +112,7 @@ namespace eneru7i
                 Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
                 if (Physics.Raycast(ray, out RaycastHit hit, 5f))
                 {
-                    if (hit.collider.CompareTag("Object"))
+                    if (hit.collider.CompareTag("Interactable"))
                     {
                         Debug.Log("interacting");
                     }
@@ -130,6 +134,9 @@ namespace eneru7i
             //이동속도 계산
             Vector3 move = transform.right * moveX + transform.forward * moveZ;
             transform.position += move * currentSpeed * speedGain * Time.deltaTime;
+            //이동 애니메이션 사용
+            animator.SetFloat("MoveX", moveX * speedGain);
+            animator.SetFloat("MoveY", moveZ * speedGain);
         }
 
         /// <summary>
@@ -168,13 +175,21 @@ namespace eneru7i
             ///숙이기
             if (!isCrouch && isGround)
             {
+                animator.SetBool("Crouch",true);
+                //숙일 경우의 키
                 playerCollider.height = crouchHeight;
+                //숙일경우 센터
+                playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z);
                 isCrouch = true;
             }
             ///일어서기
             else if (isGround)
             {
+                animator.SetBool("Crouch", false);
+                //일어설 경우의 키
                 playerCollider.height = originalHeight;
+                //일어설 경우 센터
+                playerCollider.center = new Vector3(playerCollider.center.x, originalHeight / 2f, playerCollider.center.z);
                 isCrouch = false;
             }
         }
@@ -207,9 +222,13 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.performed && !isCrouch)
             {
                 jump = true;
+            }
+            else if (context.performed && isCrouch)
+            {
+                Crouch();
             }
         }
 
@@ -268,7 +287,7 @@ namespace eneru7i
         {
             if (collision.gameObject.CompareTag("Untagged"))
             {
-                isGround = true;
+                isGround = true;              
             }
         }
     }
