@@ -38,7 +38,14 @@ namespace eneru7i
         private Vector2 moving;
         private Vector2 look;
         private bool jump;
-        private bool interact;
+        private bool left;
+        private bool right;
+        // 손 위치 트랜스폼
+        public Transform leftHand;
+        public Transform rightHand;
+        // 손에 들고 있는 오브젝트
+        private GameObject leftHandObject;
+        private GameObject rightHandObject;
 
         void Start()
         {
@@ -75,12 +82,12 @@ namespace eneru7i
         void Update()
         {
             Look();
-            Interact();
             Move();
             if (jump)
             {
                 Jump();
             }
+            HandleInteractions();
         }
 
         #region 플레이어 조작
@@ -103,21 +110,98 @@ namespace eneru7i
         }
 
         /// <summary>
-        /// 클릭시 상호작용
+        /// 상호작용 처리
         /// </summary>
-        public void Interact()
+        private void HandleInteractions()
         {
-            if (interact)
+            if (left)
             {
-                Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-                if (Physics.Raycast(ray, out RaycastHit hit, 5f))
+                if (leftHandObject == null)
                 {
-                    if (hit.collider.CompareTag("Interactable"))
+                    TryPickupObject(ref leftHandObject, leftHand);
+                }
+                else
+                {
+                    leftHandObject.transform.position = leftHand.position;
+                }
+            }
+            else if (leftHandObject != null)
+            {
+                DropObject(ref leftHandObject);
+            }
+
+            if (right)
+            {
+                if (rightHandObject == null)
+                {
+                    TryPickupObject(ref rightHandObject, rightHand);
+                }
+                else
+                {
+                    rightHandObject.transform.position = rightHand.position;
+                }
+            }
+            else if (rightHandObject != null)
+            {
+                DropObject(ref rightHandObject);
+            }
+        }
+
+        /// <summary>
+        /// 오브젝트를 손에 들기 시도
+        /// </summary>
+        /// <param name="handObject">손에 들 오브젝트</param>
+        /// <param name="hand">손 위치</param>
+        private void TryPickupObject(ref GameObject handObject, Transform hand)
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+            {
+                if (hit.collider.CompareTag("Interactable"))
+                {
+                    handObject = hit.collider.gameObject;
+                    handObject.transform.SetParent(hand);
+                    handObject.transform.position = hand.position;
+                    handObject.transform.localPosition = Vector3.zero;
+                    Rigidbody hitRb = handObject.GetComponent<Rigidbody>();
+                    if (hitRb != null)
                     {
-                        Debug.Log("interacting");
+                        hitRb.isKinematic = true;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 오브젝트를 손에서 놓기
+        /// </summary>
+        /// <param name="handObject">손에서 놓을 오브젝트</param>
+        private void DropObject(ref GameObject handObject)
+        {
+            // 현재 마우스 위치를 화면 좌표로 변환하여 Ray를 쏩니다.
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            // Ray가 충돌한 지점을 저장할 변수
+            RaycastHit hit;
+
+            // Ray를 쏴서 충돌한 지점이 있다면
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                // 충돌 지점의 위치를 아이템을 놓을 위치로 설정합니다.
+                handObject.transform.position = hit.point;
+            }
+            // 손에서 들고 있던 오브젝트의 부모를 해제합니다.
+            handObject.transform.SetParent(null);
+
+            // 손에서 들고 있던 오브젝트의 Rigidbody가 존재한다면
+            Rigidbody hitRb = handObject.GetComponent<Rigidbody>();
+            if (hitRb != null)
+            {
+                // Rigidbody의 Kinematic 속성을 해제합니다.
+                hitRb.isKinematic = false;
+            }
+
+            // 손에서 들고 있던 오브젝트를 null로 초기화합니다.
+            handObject = null;
         }
 
         /// <summary>
@@ -172,24 +256,20 @@ namespace eneru7i
         /// </summary>
         public void Crouch()
         {
-            ///숙이기
             if (!isCrouch && isGround)
             {
-                animator.SetBool("Crouch",true);
-                //숙일 경우의 키
+                animator.SetBool("Crouch", true);
                 playerCollider.height = crouchHeight;
-                //숙일경우 센터
                 playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z);
+                mainCamera.transform.localPosition = new Vector3(mainCamera.transform.localPosition.x, crouchHeight, mainCamera.transform.localPosition.z);
                 isCrouch = true;
             }
-            ///일어서기
             else if (isGround)
             {
                 animator.SetBool("Crouch", false);
-                //일어설 경우의 키
                 playerCollider.height = originalHeight;
-                //일어설 경우 센터
                 playerCollider.center = new Vector3(playerCollider.center.x, originalHeight / 2f, playerCollider.center.z);
+                mainCamera.transform.localPosition = new Vector3(mainCamera.transform.localPosition.x, originalHeight, mainCamera.transform.localPosition.z);
                 isCrouch = false;
             }
         }
@@ -222,14 +302,35 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.performed && !isCrouch)
+            if (context.performed)
             {
-                jump = true;
+                if (isCrouch)
+                {
+                    Crouch();
+                }
+                else
+                {
+                    Jump();
+                }
             }
-            else if (context.performed && isCrouch)
-            {
-                Crouch();
-            }
+        }
+
+        /// <summary>
+        /// 왼손 상호작용 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnLeftInteract(InputAction.CallbackContext context)
+        {
+            left = context.action.ReadValue<float>() > 0.1f;
+        }
+
+        /// <summary>
+        /// 오른손 상호작용 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnRightInteract(InputAction.CallbackContext context)
+        {
+            right = context.action.ReadValue<float>() > 0.1f;
         }
 
         /// <summary>
@@ -238,20 +339,14 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnRun(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
-                // 달리기 상태를 설정합니다.
                 Running();
-            }
-            else if (context.canceled)
-            {
-                // 달리기 상태를 해제합니다.
-                isRunning = false;
             }
         }
 
         /// <summary>
-        /// 기어가기 연결
+        /// 숙이기 연결
         /// </summary>
         /// <param name="context"></param>
         public void OnCrouch(InputAction.CallbackContext context)
@@ -259,22 +354,6 @@ namespace eneru7i
             if (context.performed)
             {
                 Crouch();
-            }
-        }
-
-        /// <summary>
-        /// 상호작용 연결
-        /// </summary>
-        /// <param name="context"></param>
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                interact = true;
-            }
-            else if (context.canceled)
-            {
-                interact = false;
             }
         }
         #endregion
@@ -285,9 +364,9 @@ namespace eneru7i
         /// <param name="collision"></param>
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Untagged"))
+            if (collision.gameObject)
             {
-                isGround = true;              
+                isGround = true;
             }
         }
     }

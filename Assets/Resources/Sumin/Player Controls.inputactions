@@ -51,9 +51,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Interact",
+                    "name": "Left",
                     "type": "Button",
                     "id": "45de44b2-6d76-46c0-8064-b41ff5aaaa90",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "ba17ca0f-5772-4e4f-851a-99e3bfac0245",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -266,18 +275,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "Left",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "4dc8dff9-038d-4faf-aee6-f22c9eb856e0",
+                    "path": "<XRController>{LeftHand}/{PrimaryAction}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "927a8a58-aacb-43ac-90b7-28d7ec2391d3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2751e102-7d2c-4074-ba2a-4d00b35c1029",
                     "path": "<XRController>{RightHand}/{PrimaryAction}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

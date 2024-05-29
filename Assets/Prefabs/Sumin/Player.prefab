@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3627456206011202845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5113684670723930360}
+  m_Layer: 0
+  m_Name: LeftHandPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5113684670723930360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3627456206011202845}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 1.9, z: 1}
+  m_LocalScale: {x: 0.012999999, y: 0.013000002, z: 0.013000002}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5529067629373395137}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3906253389521575089
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +123,37 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3906253389521575089}
   m_Enabled: 1
+--- !u!1 &6557852904358793104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5202532381346165156}
+  m_Layer: 0
+  m_Name: 'RightHandPosition '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5202532381346165156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6557852904358793104}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.47794184, y: -0.51115066, z: 0.52443343, w: -0.48504257}
+  m_LocalPosition: {x: 0.5, y: 1.9, z: 1}
+  m_LocalScale: {x: 0.012999991, y: 0.0129999975, z: 0.013}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5529067629373395137}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5418262234534311722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,12 +163,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 30.918436
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000021457672
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -160,6 +234,12 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 5113684670723930360}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 5202532381346165156}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 37fd257cc5d04d24eb72bb4a473f8acb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5435721442426491153}
     m_AddedComponents:
@@ -198,6 +278,8 @@ MonoBehaviour:
   mouseSensitivity: 100
   originalHeight: 2.4
   crouchHeight: 1.2
+  leftHand: {fileID: 5113684670723930360}
+  rightHand: {fileID: 5202532381346165156}
 --- !u!114 &9152407983002908334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +389,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 821902438874226493}
         m_TargetAssemblyTypeName: eneru7i.PlayerController, Assembly-CSharp
-        m_MethodName: OnInteract
+        m_MethodName: OnLeft
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -319,6 +401,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 45de44b2-6d76-46c0-8064-b41ff5aaaa90
     m_ActionName: Player/Interact[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 821902438874226493}
+        m_TargetAssemblyTypeName: eneru7i.PlayerController, Assembly-CSharp
+        m_MethodName: OnRight
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ba17ca0f-5772-4e4f-851a-99e3bfac0245
+    m_ActionName: Player/Right[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
