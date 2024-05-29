@@ -15,7 +15,7 @@ namespace eneru7i
         //마우스 감도
         public float mouseSensitivity = 100f;
         //이동속도
-        float speed = 3f;
+        public float speed = 2f;
         //카메라 상하 각도
         float xRotation = 0f;
         //리지드바디
@@ -184,7 +184,7 @@ namespace eneru7i
             RaycastHit hit;
 
             // Ray를 쏴서 충돌한 지점이 있다면
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (Physics.Raycast(ray, out hit, 2f))
             {
                 // 충돌 지점의 위치를 아이템을 놓을 위치로 설정합니다.
                 handObject.transform.position = hit.point;
@@ -194,7 +194,7 @@ namespace eneru7i
 
             // 손에서 들고 있던 오브젝트의 Rigidbody가 존재한다면
             Rigidbody hitRb = handObject.GetComponent<Rigidbody>();
-            if (hitRb != null)
+            if (!hitRb != null)
             {
                 // Rigidbody의 Kinematic 속성을 해제합니다.
                 hitRb.isKinematic = false;
@@ -239,15 +239,11 @@ namespace eneru7i
         /// <summary>
         /// 달리기
         /// </summary>
-        public void Running()
+        public void Running(bool run)
         {
-            if (!isRunning && isGround)
+            if (isGround)
             {
-                isRunning = true;
-            }
-            else if (isGround)
-            {
-                isRunning = false;
+                isRunning = run;
             }
         }
 
@@ -258,18 +254,34 @@ namespace eneru7i
         {
             if (!isCrouch && isGround)
             {
+                // 플레이어를 숙였을 때의 처리
                 animator.SetBool("Crouch", true);
+                // 컬라이더로 앉은 키 처리
                 playerCollider.height = crouchHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z);
+                //앉은 상태의 메인 카메라
                 mainCamera.transform.localPosition = new Vector3(mainCamera.transform.localPosition.x, crouchHeight, mainCamera.transform.localPosition.z);
+                //손들의 위치 변경
+                leftHand.transform.localPosition
+                    = new Vector3(leftHand.transform.localPosition.x, leftHand.transform.localPosition.y / 2f, leftHand.transform.localPosition.z);
+                rightHand.transform.localPosition
+                    = new Vector3(rightHand.transform.localPosition.x, rightHand.transform.localPosition.y / 2f, rightHand.transform.localPosition.z);
                 isCrouch = true;
             }
             else if (isGround)
             {
+                // 플레이어가 숙은 상태에서 일어났을 때의 처리
                 animator.SetBool("Crouch", false);
+                // 컬라이더로 일어선 키 처리
                 playerCollider.height = originalHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, originalHeight / 2f, playerCollider.center.z);
+                //앉은 상태의 메인 카메라
                 mainCamera.transform.localPosition = new Vector3(mainCamera.transform.localPosition.x, originalHeight, mainCamera.transform.localPosition.z);
+                //손들의 위치 원위치
+                leftHand.transform.localPosition
+                    = new Vector3(leftHand.transform.localPosition.x, leftHand.transform.position.y, leftHand.transform.localPosition.z);
+                rightHand.transform.localPosition
+                    = new Vector3(rightHand.transform.localPosition.x, rightHand.transform.position.y, rightHand.transform.localPosition.z);
                 isCrouch = false;
             }
         }
@@ -310,7 +322,7 @@ namespace eneru7i
                 }
                 else
                 {
-                    Jump();
+                    jump = true;  // 점프 상태 설정
                 }
             }
         }
@@ -339,9 +351,13 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnRun(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.started)
             {
-                Running();
+                Running(true);  // 달리기 시작
+            }
+            else if (context.canceled)
+            {
+                Running(false);  // 달리기 멈춤
             }
         }
 
