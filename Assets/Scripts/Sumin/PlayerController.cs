@@ -107,6 +107,10 @@ namespace eneru7i
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -60f, 60f);
             mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+            //카메라 위치 조정 (플레이어의 y축에서 1.8만큼 위로 이동, 플레이어가 바라보는 방향의 0.5m 앞에 위치)
+            Vector3 cameraOffset = player.transform.forward * 0.2f + Vector3.up * 1.8f;
+            mainCamera.transform.position = player.transform.position + cameraOffset;
         }
 
         /// <summary>
@@ -155,7 +159,7 @@ namespace eneru7i
         private void TryPickupObject(ref GameObject handObject, Transform hand)
         {
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+            if (Physics.Raycast(ray, out RaycastHit hit, 2.5f))
             {
                 if (hit.collider.CompareTag("Interactable"))
                 {
@@ -184,7 +188,7 @@ namespace eneru7i
             RaycastHit hit;
 
             // Ray를 쏴서 충돌한 지점이 있다면
-            if (Physics.Raycast(ray, out hit, 2f))
+            if (Physics.Raycast(ray, out hit, 2.5f))
             {
                 // 충돌 지점의 위치를 아이템을 놓을 위치로 설정합니다.
                 handObject.transform.position = hit.point;

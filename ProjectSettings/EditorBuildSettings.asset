@@ -4,6 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Sumin.unity
+    guid: f139594fb8c467b449680bd1097b2e24
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3a0bd7dfa7410a640bba66e9a6491dfc, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 8bb8d7eed62840b4da4fcd620dcc35b6, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 103ab72df793d0b4db16b3a07cd99159, type: 2}
