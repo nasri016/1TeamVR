@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1499606585609197818}
   - component: {fileID: 2549168968772196191}
   - component: {fileID: 325526781799785365}
-  - component: {fileID: 8974080984529194319}
   - component: {fileID: 7469471410275869450}
   m_Layer: 0
   m_Name: Firewood_04
@@ -27,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2271077078954852928}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2549168968772196191
 MeshFilter:
@@ -85,25 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!205 &8974080984529194319
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2271077078954852928}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: 0, y: 0.0023678243, z: -0.001663655}
-  m_Size: 0.3917602
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.02677778
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 325526781799785365}
-  m_Enabled: 1
 --- !u!65 &7469471410275869450
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -112,8 +92,16 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2271077078954852928}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.3917602, y: 0.080107585, z: 0.08207701}
   m_Center: {x: 0, y: 0.0023678262, z: -0.0016636532}

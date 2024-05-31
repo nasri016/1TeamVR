@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1145482983}
   - component: {fileID: 1145482986}
   - component: {fileID: 1145482985}
-  - component: {fileID: 1145482984}
   m_Layer: 9
   m_Name: TuneTrigger
   m_TagString: Untagged
@@ -26,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145482982}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.0000020787118, y: 0.7071067, z: 0.7071069, w: 0.0000020712612}
   m_LocalPosition: {x: -0.06855, y: -0.017, z: -0.0338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5857054866350641538}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1145482986
 MeshFilter:
@@ -50,51 +49,19 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145482982}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 0
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.03, y: 0.03, z: 0.01}
   m_Center: {x: -2.5016934e-15, y: -3.27902e-10, z: -0.0018337616}
---- !u!114 &1145482984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1145482982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a71236a69471c1e478bfdef22bbe2e59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractType: 2
-  RepeatMode: 1
-  InteractObject: {fileID: 0}
-  InteractCall: UseObject
-  AnimationName: 
-  AnimationSpeed: 1
-  InteractEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 430702749826978042}
-        m_TargetAssemblyTypeName: HFPS.Systems.Radio, Assembly-CSharp
-        m_MethodName: ChangeChannel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  InteractBackEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  CancelExamine: 0
-  WaitForNextSound: 0
-  InteractSound: {fileID: 8300000, guid: 458eda3e2e01017409ab1b2f43b3c799, type: 3}
-  InteractVolume: 0.3
 --- !u!1 &430702748789203716
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,8 +74,6 @@ GameObject:
   - component: {fileID: 430702749826978041}
   - component: {fileID: 430702749826978043}
   - component: {fileID: 430702749826978044}
-  - component: {fileID: 430702749826978040}
-  - component: {fileID: 430702749826978042}
   m_Layer: 9
   m_Name: AntiqueRadio
   m_TagString: Untagged
@@ -123,6 +88,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430702748789203716}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2999998, y: 1.3, z: 1.3}
@@ -130,7 +96,6 @@ Transform:
   m_Children:
   - {fileID: 5857054866350641538}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &430702749826978041
 BoxCollider:
@@ -140,9 +105,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430702748789203716}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.24000011, y: 0.08611149, z: 0.156312}
   m_Center: {x: 0.014459892, y: 0.022936415, z: -0.0043506403}
 --- !u!111 &430702749826978043
@@ -258,103 +231,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &430702749826978040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430702748789203716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fcb51f6d678d2498af4fb5f59a2c8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemTitle: Apple
-  itemType: 1
-  examineType: 2
-  examineRotate: 3
-  messageType: 0
-  disableType: 0
-  messageTips: []
-  titleOrMsg: 
-  examineTitle: Old Radio
-  paperText: 
-  titleMsgKey: 
-  examineKey: Object_Radio
-  inventoryID: 0
-  switcherID: 0
-  invExpandAmount: 5
-  itemAmount: 1
-  paperFontSize: 15
-  examineDistance:
-    min: 0.4
-    max: 0.5
-    value: 0.5
-  messageTime: 3
-  useInvTitle: 0
-  useItemTitle: 0
-  useDefaultHint: 1
-  autoShortcut: 0
-  autoSwitch: 0
-  interactShowTitle: 0
-  allowExamineTake: 0
-  floatingIcon: 1
-  faceCamera: 1
-  mouseClickPickup: 0
-  enableCursor: 1
-  pickupSound: {fileID: 0}
-  pickupVolume: 1
-  examineSound: {fileID: 8300000, guid: 4e6d1d4f658fb11448ee8d536a7c3fb5, type: 3}
-  examineVolume: 0.1
-  faceRotation: {x: -90, y: 180, z: 0}
-  itemCustomData: []
-  collidersDisable: []
-  collidersEnable:
-  - {fileID: 430702749005323640}
-  - {fileID: 1145482985}
-  allowedInteracts: []
-  isExamining: 0
-  isChild: 0
-  isExamined: 0
-  floatingIconState: 1
-  lastFloorPosition: {x: 0, y: 0, z: 0}
---- !u!114 &430702749826978042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430702748789203716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a91b24345bee5a5419730dfa9e2438c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radioAudioSource: {fileID: 430702749826978044}
-  pushButton: {fileID: 8300000, guid: 458eda3e2e01017409ab1b2f43b3c799, type: 3}
-  pushVolume: 0.3
-  radioChannels:
-  - channelAudio: {fileID: 8300000, guid: c3b8be1286e59cf49ac9520e8c929a06, type: 3}
-    loopable: 1
-    tunerPosition: 0.0072
-    playBackTime: 0
-  - channelAudio: {fileID: 8300000, guid: 999cfeb2ca83a1343adff1f98827e6c8, type: 3}
-    loopable: 1
-    tunerPosition: -0.0465
-    playBackTime: 0
-  randomChannel: 0
-  meshRenderer: {fileID: 5857054866352411490}
-  PowerLight: {fileID: 764663020114916174}
-  OnColor: {r: 0, g: 1, b: 0, a: 1}
-  OffColor: {r: 1, g: 0, b: 0, a: 1}
-  tunerGO: {fileID: 5857054866350641542}
-  tunerMinMax: {x: -0.0825, y: 0.0275}
-  moveSpeed: 0.25
-  m_animation: {fileID: 5857054866350411171}
-  OnAnimation: RadioOn
-  OffAnimation: RadioOff
-  isOn: 0
 --- !u!1 &430702749005323637
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +242,6 @@ GameObject:
   - component: {fileID: 430702749005323638}
   - component: {fileID: 430702749005323641}
   - component: {fileID: 430702749005323640}
-  - component: {fileID: 430702749005323639}
   m_Layer: 9
   m_Name: PowerTrigger
   m_TagString: Untagged
@@ -381,13 +256,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430702749005323637}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.0000020787118, y: 0.7071067, z: 0.7071069, w: 0.0000020712612}
   m_LocalPosition: {x: 0.01814, y: -0.017, z: -0.03381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5857054866350641538}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &430702749005323641
 MeshFilter:
@@ -405,51 +280,19 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430702749005323637}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 0
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.022, y: 0.032, z: 0.01}
   m_Center: {x: -2.5016934e-15, y: -3.27902e-10, z: -0.0018337616}
---- !u!114 &430702749005323639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430702749005323637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a71236a69471c1e478bfdef22bbe2e59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InteractType: 2
-  RepeatMode: 1
-  InteractObject: {fileID: 0}
-  InteractCall: UseObject
-  AnimationName: 
-  AnimationSpeed: 1
-  InteractEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 430702749826978042}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: UseObject
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  InteractBackEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  CancelExamine: 0
-  WaitForNextSound: 0
-  InteractSound: {fileID: 0}
-  InteractVolume: 1
 --- !u!1 &5666328326087616923
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,13 +317,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5666328326087616923}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0184, y: -0.0203, z: -0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5857054866350641538}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &764663020114916174
 Light:
@@ -569,13 +412,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5857054866350411168}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.018059876, y: -0.014239325, z: -0.03930663}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5857054866350641538}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5857054866353541536
 MeshFilter:
@@ -654,6 +497,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5857054866350411170}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -665,7 +509,6 @@ Transform:
   - {fileID: 1260700748901698372}
   - {fileID: 1145482983}
   m_Father: {fileID: 430702748789047076}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -180.00002}
 --- !u!33 &5857054866353541538
 MeshFilter:
@@ -725,9 +568,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5857054866350411170}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 0
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.2400001, y: 0.078088455, z: 0.156312}
   m_Center: {x: 0.014459893, y: 0.026947932, z: -0.00435064}
 --- !u!111 &5857054866350411171
@@ -772,13 +623,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5857054866350411174}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0072, y: -0.0082, z: 0.0025}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5857054866350641538}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5857054866353541542
 MeshFilter:

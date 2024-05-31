@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3257918365220079818}
   - component: {fileID: 3257918365220079817}
   - component: {fileID: 3257918365220079816}
-  - component: {fileID: 3257918365220079823}
   m_Layer: 9
   m_Name: VHSTape01
   m_TagString: Untagged
@@ -28,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3257918365220079821}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.29999998, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3257918365220079819
 MeshFilter:
@@ -94,9 +93,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3257918365220079821}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.55482596, y: 0.9796204, z: 0.1135891}
   m_Center: {x: -0.027583275, y: 0.0000000016443014, z: 0}
 --- !u!54 &3257918365220079816
@@ -106,77 +113,23 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3257918365220079821}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3257918365220079823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3257918365220079821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fcb51f6d678d2498af4fb5f59a2c8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemTitle: VHS Tape
-  itemType: 2
-  examineType: 1
-  examineRotate: 3
-  messageType: 3
-  disableType: 1
-  messageTips: []
-  titleOrMsg: 
-  examineTitle: 
-  paperText: 
-  titleMsgKey: 
-  examineKey: 
-  inventoryID: 35
-  switcherID: 0
-  invExpandAmount: 5
-  itemAmount: 1
-  paperFontSize: 15
-  examineDistance:
-    min: 0.5
-    max: 0.6
-    value: 0.6
-  messageTime: 3
-  useInvTitle: 1
-  useItemTitle: 1
-  useDefaultHint: 1
-  autoShortcut: 0
-  autoSwitch: 0
-  interactShowTitle: 0
-  allowExamineTake: 1
-  floatingIcon: 0
-  faceCamera: 0
-  mouseClickPickup: 0
-  enableCursor: 0
-  pickupSound: {fileID: 8300000, guid: 083a48ad55134a8419e7016aafcfd886, type: 3}
-  pickupVolume: 0.75
-  examineSound: {fileID: 0}
-  examineVolume: 1
-  faceRotation: {x: 0, y: 0, z: 0}
-  itemCustomData:
-  - Key: Value
-    Value: Monster at woods!
-  - Key: Tag
-    Value: vhs_monster
-  - Key: Path
-    Value: Textures/VHS/VHS_Monster
-  collidersDisable: []
-  collidersEnable: []
-  allowedInteracts: []
-  isExamining: 0
-  isChild: 0
-  isExamined: 0
-  floatingIconState: 1
-  lastFloorPosition: {x: 0, y: 0, z: 0}

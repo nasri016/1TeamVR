@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5961666121553361990}
   - component: {fileID: 7283389688145261539}
   - component: {fileID: 4825390521368495913}
-  - component: {fileID: 1814021684329400533}
   - component: {fileID: 6451055045670707070}
   m_Layer: 0
   m_Name: Veranda_Roof_2m_01
@@ -27,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6482869458751416060}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7283389688145261539
 MeshFilter:
@@ -86,25 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!205 &1814021684329400533
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6482869458751416060}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: 1.2646947, y: -0.008547068, z: -0.9999997}
-  m_Size: 2.5293903
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.02677778
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 4825390521368495913}
-  m_Enabled: 1
 --- !u!64 &6451055045670707070
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -113,9 +93,17 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6482869458751416060}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
+  serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1474005079530033091, guid: 59af8629438e33340858c4f8efc05b49, type: 3}

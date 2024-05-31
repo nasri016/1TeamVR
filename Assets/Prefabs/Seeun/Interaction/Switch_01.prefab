@@ -175,7 +175,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7286787574545108349}
-  - component: {fileID: 3006746157249613990}
   m_Layer: 0
   m_Name: Switch_01
   m_TagString: Untagged
@@ -191,7 +190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5321216383832510277}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.70710576, w: 0.70710784}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 3.8158264, y: -0.049999714, z: -26.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -200,23 +199,3 @@ Transform:
   - {fileID: 4535585811412735705}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!205 &3006746157249613990
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5321216383832510277}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.018909512, y: 0, z: 0.00000047683716}
-  m_Size: 0.10619792
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.006580258
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 3094426743285596726}
-    - renderer: {fileID: 2730378692998685327}
-  m_Enabled: 1

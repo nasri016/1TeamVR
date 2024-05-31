@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7450122561254512175}
   - component: {fileID: 6562553326750966810}
   - component: {fileID: 5915807596697132136}
+  - component: {fileID: 7201082513679179224}
   m_Layer: 0
   m_Name: ladder_2
   m_TagString: Untagged
@@ -27,9 +28,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382569702643141085}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.88628024, y: -0, z: -0, w: 0.46314937}
+  m_LocalRotation: {x: -0.88628036, y: 0, z: 0, w: 0.4631491}
   m_LocalPosition: {x: 31.281, y: 1.999, z: -66.463}
-  m_LocalScale: {x: 0.8046, y: 1, z: 0.612}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -105,3 +106,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!64 &7201082513679179224
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382569702643141085}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 41dfef17da21fbe40b311443cbbb652a, type: 3}

@@ -25,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911407590015034}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.000000014901159, w: 1}
   m_LocalPosition: {x: 0, y: 0.1014, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4457266688772552}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &108278535973419418
 Light:
@@ -122,7 +123,6 @@ GameObject:
   - component: {fileID: 33956590130760518}
   - component: {fileID: 23056617765757562}
   - component: {fileID: 64274471492441154}
-  - component: {fileID: 114251571566005228}
   m_Layer: 9
   m_Name: Lamp_05
   m_TagString: Untagged
@@ -137,13 +137,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985926150238138}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 25, y: 25, z: 25}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4808112657182442}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33956590130760518
 MeshFilter:
@@ -164,6 +165,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -202,36 +204,17 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985926150238138}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
+  serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300012, guid: 3b480027b40f8d24981d8fa7c545a5f1, type: 3}
---- !u!114 &114251571566005228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1985926150238138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af5fb8a2112111a4a8b883f6a7edcb5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactType: 0
-  lightType: 0
-  lightObj: {fileID: 108278535973419418}
-  emissionObj: {fileID: 23056617765757562}
-  electricity: {fileID: 0}
-  emissionKeyword: _EMISSION
-  emissionString: _EmissionColor
-  animationObj: {fileID: 0}
-  animationName: 
-  switchOnAnim: 
-  switchOffAnim: 
-  SwitchOn: {fileID: 8300000, guid: 34132e817d3b66741ae6ed01c151c9ee, type: 3}
-  SwitchOff: {fileID: 8300000, guid: a09f9b6b9b8d164468fc12199a553cd4, type: 3}
-  volume: 1
-  isPoweredOn: 0

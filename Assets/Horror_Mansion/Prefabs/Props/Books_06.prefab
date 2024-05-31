@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7228711067878340610}
   - component: {fileID: 6052365109166978983}
   - component: {fileID: 8366182558757372781}
-  - component: {fileID: 6903221058223872558}
   - component: {fileID: 4597762036009639855}
   m_Layer: 0
   m_Name: Books_06
@@ -27,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8005811094631408312}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6052365109166978983
 MeshFilter:
@@ -85,25 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!205 &6903221058223872558
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8005811094631408312}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.11566424, y: 0.009933704, z: 0.06323229}
-  m_Size: 0.23134422
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.02677778
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 8366182558757372781}
-  m_Enabled: 1
 --- !u!65 &4597762036009639855
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -112,8 +92,16 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8005811094631408312}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.23134422, y: 0.019867407, z: 0.12646458}
   m_Center: {x: -0.11566424, y: 0.009933704, z: 0.06323229}
