@@ -74,6 +74,7 @@ namespace eneru7i
             originalHeight = playerCollider.height;
 
             animator = player.GetComponent<Animator>();
+
         }
 
         /// <summary>
@@ -97,18 +98,28 @@ namespace eneru7i
         public void Look()
         {
             // 마우스 입력 값을 받아옵니다.
-            float mouseX = look.x * mouseSensitivity * Time.deltaTime;
-            float mouseY = look.y * mouseSensitivity * Time.deltaTime;
+            Vector2 mouseDelta = look * mouseSensitivity * Time.deltaTime;
 
-            // 플레이어를 수평 방향으로 회전합니다.
-            player.transform.Rotate(Vector3.up * mouseX);
+            // 화면 경계를 체크하여 마우스 이동 제한
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            //float screenWidth = Screen.width;
+            //float screenHeight = Screen.height;
 
-            // 카메라를 수직 방향으로 회전합니다.
-            xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -60f, 60f);
-            mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            // 수평 회전
+            if (mousePosition.x > 0 /*&& mousePosition.x < screenWidth*/)
+            {
+                player.transform.Rotate(Vector3.up * mouseDelta.x);
+            }
 
-            //카메라 위치 조정 (플레이어의 y축에서 1.8만큼 위로 이동, 플레이어가 바라보는 방향의 0.5m 앞에 위치)
+            // 수직 회전
+            if (mousePosition.y > 0 /*&& mousePosition.y < screenHeight*/)
+            {
+                xRotation -= mouseDelta.y;
+                xRotation = Mathf.Clamp(xRotation, -60f, 60f);
+                mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            }
+
+            // 카메라 위치 조정 (플레이어의 y축에서 1.8만큼 위로 이동, 플레이어가 바라보는 방향의 0.5m 앞에 위치)
             Vector3 cameraOffset = player.transform.forward * 0.2f + Vector3.up * 1.8f;
             mainCamera.transform.position = player.transform.position + cameraOffset;
         }
