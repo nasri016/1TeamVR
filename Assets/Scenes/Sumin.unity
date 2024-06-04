@@ -8095,6 +8095,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5552275489050642383, guid: 016b4c0e22eedc443afdf534fcf4059c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 866839463}
+    - targetCorrespondingSourceObject: {fileID: 5552275489050642383, guid: 016b4c0e22eedc443afdf534fcf4059c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 866839465}
     - targetCorrespondingSourceObject: {fileID: 9127269379534908285, guid: 016b4c0e22eedc443afdf534fcf4059c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1100610891}
@@ -11258,7 +11261,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 581787106685389969, guid: 6c2aeda4783906a439c109b4120aac5f, type: 3}
       propertyPath: m_Name
-      value: Lost Book
+      value: Key Book
       objectReference: {fileID: 0}
     - target: {fileID: 581787106685389969, guid: 6c2aeda4783906a439c109b4120aac5f, type: 3}
       propertyPath: m_IsActive
@@ -12787,6 +12790,27 @@ MonoBehaviour:
   lostbook: {fileID: 789221202}
   videotape: {fileID: 1300903631}
   animator: {fileID: 866839463}
+--- !u!65 &866839465
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866839462}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &870429941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14487,9 +14511,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 789221207}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8983342558362106300, guid: 1bfbc067ada38a8439220785dff2ca15, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 1728744732632849899, guid: 1bfbc067ada38a8439220785dff2ca15, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1922386018}
+      addedObject: {fileID: 2026928073}
   m_SourcePrefab: {fileID: 100100000, guid: 1bfbc067ada38a8439220785dff2ca15, type: 3}
 --- !u!4 &980035362 stripped
 Transform:
@@ -15866,7 +15890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2182753042344919375, guid: b8b3c610511b47c478e4a20189000576, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19057,7 +19081,7 @@ PrefabInstance:
       objectReference: {fileID: 1260367653}
     - target: {fileID: 821902438874226493, guid: f78fc40ff4b222c4aac8808d4004b4ad, type: 3}
       propertyPath: mouseSensitivity
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5113684670723930360, guid: f78fc40ff4b222c4aac8808d4004b4ad, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19216,6 +19240,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1517166517}
     m_Modifications:
+    - target: {fileID: 3358067071757281673, guid: ff7d0db56bece5a4c816647356bf6494, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4874383578969292889, guid: ff7d0db56bece5a4c816647356bf6494, type: 3}
       propertyPath: m_Name
       value: Floor_4x4_01 (3)
@@ -24682,13 +24710,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lost Book
       objectReference: {fileID: 0}
+    - target: {fileID: 581787106685389969, guid: 6c2aeda4783906a439c109b4120aac5f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6288818511453266977, guid: 6c2aeda4783906a439c109b4120aac5f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.608
+      value: 0.269
       objectReference: {fileID: 0}
     - target: {fileID: 6288818511453266977, guid: 6c2aeda4783906a439c109b4120aac5f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.369
+      value: 1.259
       objectReference: {fileID: 0}
     - target: {fileID: 6288818511453266977, guid: 6c2aeda4783906a439c109b4120aac5f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24819,15 +24851,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5381214374773066708, guid: 5cbaa72de49310342839074887e89cfa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.060343467
+      value: -0.557
       objectReference: {fileID: 0}
     - target: {fileID: 5381214374773066708, guid: 5cbaa72de49310342839074887e89cfa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.42990825
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5381214374773066708, guid: 5cbaa72de49310342839074887e89cfa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.039333433
+      value: 0.1359
       objectReference: {fileID: 0}
     - target: {fileID: 5381214374773066708, guid: 5cbaa72de49310342839074887e89cfa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -30556,26 +30588,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5255307855120440035, guid: ff7d0db56bece5a4c816647356bf6494, type: 3}
   m_PrefabInstance: {fileID: 1920390359}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1922386017 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8983342558362106300, guid: 1bfbc067ada38a8439220785dff2ca15, type: 3}
-  m_PrefabInstance: {fileID: 980035361}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1922386018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922386017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5ded56edfb566a4eba1f1a211fbdfbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrow: {fileID: 400425588}
-  lostarrow: {fileID: 54419928}
-  book: {fileID: 789221202}
 --- !u!1001 &1932846865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31990,6 +32002,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8218764242573223044, guid: 70c61902f771fcb4c8a69af2f6d90e3e, type: 3}
   m_PrefabInstance: {fileID: 2013225332}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2026928068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1728744732632849899, guid: 1bfbc067ada38a8439220785dff2ca15, type: 3}
+  m_PrefabInstance: {fileID: 980035361}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2026928073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026928068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5ded56edfb566a4eba1f1a211fbdfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrow: {fileID: 400425588}
+  lostarrow: {fileID: 54419928}
+  book: {fileID: 789221202}
 --- !u!1 &2036107232
 GameObject:
   m_ObjectHideFlags: 0
@@ -33095,6 +33127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1517166517}
     m_Modifications:
+    - target: {fileID: 4935446939705832043, guid: 654dd02befd841e4ba31f254ee518c69, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935446939705832043, guid: 654dd02befd841e4ba31f254ee518c69, type: 3}
+      propertyPath: m_Center.y
+      value: 0.35
+      objectReference: {fileID: 0}
     - target: {fileID: 7376452690341458159, guid: 654dd02befd841e4ba31f254ee518c69, type: 3}
       propertyPath: m_Name
       value: Mini_Table (1)

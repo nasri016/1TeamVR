@@ -101,23 +101,23 @@ namespace eneru7i
             Vector2 mouseDelta = look * mouseSensitivity * Time.deltaTime;
 
             // 화면 경계를 체크하여 마우스 이동 제한
-            Vector2 mousePosition = Mouse.current.position.ReadValue();
+            //Vector2 mousePosition = Mouse.current.position.ReadValue();
             //float screenWidth = Screen.width;
             //float screenHeight = Screen.height;
 
             // 수평 회전
-            if (mousePosition.x > 0 /*&& mousePosition.x < screenWidth*/)
-            {
+            //if (mousePosition.x > 0 /.*&& mousePosition.x < screenWidth*/)
+            //{
                 player.transform.Rotate(Vector3.up * mouseDelta.x);
-            }
+            //}
 
             // 수직 회전
-            if (mousePosition.y > 0 /*&& mousePosition.y < screenHeight*/)
-            {
+            //if (mousePosition.y > 0 /*&& mousePosition.y < screenHeight*/)
+            //{
                 xRotation -= mouseDelta.y;
                 xRotation = Mathf.Clamp(xRotation, -60f, 60f);
                 mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            }
+            //}
 
             // 카메라 위치 조정 (플레이어의 y축에서 1.8만큼 위로 이동, 플레이어가 바라보는 방향의 0.5m 앞에 위치)
             Vector3 cameraOffset = player.transform.forward * 0.2f + Vector3.up * 1.8f;
