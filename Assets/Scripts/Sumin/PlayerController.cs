@@ -1,3 +1,4 @@
+using UnityEditor.XR.LegacyInputHelpers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -74,6 +75,7 @@ namespace eneru7i
             originalHeight = playerCollider.height;
 
             animator = player.GetComponent<Animator>();
+
         }
 
         /// <summary>
@@ -97,20 +99,15 @@ namespace eneru7i
         public void Look()
         {
             // 마우스 입력 값을 받아옵니다.
-            float mouseX = look.x * mouseSensitivity * Time.deltaTime;
-            float mouseY = look.y * mouseSensitivity * Time.deltaTime;
+            Vector2 mouseDelta = look * mouseSensitivity * Time.deltaTime;
 
-            // 플레이어를 수평 방향으로 회전합니다.
-            player.transform.Rotate(Vector3.up * mouseX);
+            // 수평 회전
+            player.transform.Rotate(Vector3.up * mouseDelta.x);
 
-            // 카메라를 수직 방향으로 회전합니다.
-            xRotation -= mouseY;
+            // 수직 회전
+            xRotation -= mouseDelta.y;
             xRotation = Mathf.Clamp(xRotation, -60f, 60f);
             mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
-            //카메라 위치 조정 (플레이어의 y축에서 1.8만큼 위로 이동, 플레이어가 바라보는 방향의 0.5m 앞에 위치)
-            Vector3 cameraOffset = player.transform.forward * 0.2f + Vector3.up * 1.8f;
-            mainCamera.transform.position = player.transform.position + cameraOffset;
         }
 
         /// <summary>
@@ -263,13 +260,11 @@ namespace eneru7i
                 // 컬라이더로 앉은 키 처리
                 playerCollider.height = crouchHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z);
-                //앉은 상태의 메인 카메라
-                mainCamera.transform.localPosition = new Vector3(mainCamera.transform.localPosition.x, crouchHeight, mainCamera.transform.localPosition.z);
-                //손들의 위치 변경
-                leftHand.transform.localPosition
-                    = new Vector3(leftHand.transform.localPosition.x, leftHand.transform.localPosition.y / 2f, leftHand.transform.localPosition.z);
-                rightHand.transform.localPosition
-                    = new Vector3(rightHand.transform.localPosition.x, rightHand.transform.localPosition.y / 2f, rightHand.transform.localPosition.z);
+                // 카메라 위치 조정
+                mainCamera.transform.localPosition = new Vector3(0f, crouchHeight, 0f);
+                // 손들의 위치 변경
+                leftHand.transform.localPosition = new Vector3(leftHand.transform.localPosition.x, crouchHeight / 2f, leftHand.transform.localPosition.z);
+                rightHand.transform.localPosition = new Vector3(rightHand.transform.localPosition.x, crouchHeight / 2f, rightHand.transform.localPosition.z);
                 isCrouch = true;
             }
             else if (isGround)
@@ -279,13 +274,11 @@ namespace eneru7i
                 // 컬라이더로 일어선 키 처리
                 playerCollider.height = originalHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, originalHeight / 2f, playerCollider.center.z);
-                //앉은 상태의 메인 카메라
-                mainCamera.transform.localPosition = new Vector3(mainCamera.transform.localPosition.x, originalHeight, mainCamera.transform.localPosition.z);
-                //손들의 위치 원위치
-                leftHand.transform.localPosition
-                    = new Vector3(leftHand.transform.localPosition.x, leftHand.transform.position.y, leftHand.transform.localPosition.z);
-                rightHand.transform.localPosition
-                    = new Vector3(rightHand.transform.localPosition.x, rightHand.transform.position.y, rightHand.transform.localPosition.z);
+                // 카메라 위치 조정
+                mainCamera.transform.localPosition = new Vector3(0f, originalHeight, 0f);
+                // 손들의 위치 원위치
+                leftHand.transform.localPosition = new Vector3(leftHand.transform.localPosition.x, originalHeight, leftHand.transform.localPosition.z);
+                rightHand.transform.localPosition = new Vector3(rightHand.transform.localPosition.x, originalHeight, rightHand.transform.localPosition.z);
                 isCrouch = false;
             }
         }
