@@ -20,23 +20,27 @@ public class VHSPlayer : MonoBehaviour
     //테이프를 삽입해주세요 라는 ui가 뜸
 
     //private Animation animation;
-    public Animator animator;
+    private Animation animation;
+    public GameObject tape;
 
     private void Start()
     {
         //animation = GetComponent<Animation>();
-        animator = GetComponent<Animator>();    
+        animation = GetComponent<Animation>();    
     }
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            animator.SetTrigger("TapeTake");
+            tape.SetActive(true);
+            animation.Play("Insert and Take");
+            
         }
-        Debug.Log("되고 있는겨?");
+        
     }
 
+    
 
 
 }
