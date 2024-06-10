@@ -48,6 +48,8 @@ namespace eneru7i
         private GameObject leftHandObject;
         private GameObject rightHandObject;
 
+        public float cameraHeightFactor = 0.9f; // 카메라 높이 계수
+
         void Start()
         {
             if (player == null)
@@ -261,7 +263,7 @@ namespace eneru7i
                 playerCollider.height = crouchHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z);
                 // 카메라 위치 조정
-                mainCamera.transform.localPosition = new Vector3(0f, crouchHeight, 0f);
+                mainCamera.transform.localPosition = new Vector3(0f, crouchHeight * cameraHeightFactor, 0f);
                 // 손들의 위치 변경
                 leftHand.transform.localPosition = new Vector3(leftHand.transform.localPosition.x, crouchHeight / 2f, leftHand.transform.localPosition.z);
                 rightHand.transform.localPosition = new Vector3(rightHand.transform.localPosition.x, crouchHeight / 2f, rightHand.transform.localPosition.z);
@@ -275,7 +277,7 @@ namespace eneru7i
                 playerCollider.height = originalHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, originalHeight / 2f, playerCollider.center.z);
                 // 카메라 위치 조정
-                mainCamera.transform.localPosition = new Vector3(0f, originalHeight, 0f);
+                mainCamera.transform.localPosition = new Vector3(0f, originalHeight * cameraHeightFactor, 0f);
                 // 손들의 위치 원위치
                 leftHand.transform.localPosition = new Vector3(leftHand.transform.localPosition.x, originalHeight, leftHand.transform.localPosition.z);
                 rightHand.transform.localPosition = new Vector3(rightHand.transform.localPosition.x, originalHeight, rightHand.transform.localPosition.z);
