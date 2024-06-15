@@ -267,7 +267,7 @@ namespace eneru7i
                 playerCollider.height = crouchHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z + 0.15f);
                 // 카메라 위치 조정
-                mainCamera.transform.localPosition = new Vector3(0f, crouchHeight * cameraHeightFactor, 0.15f);
+                mainCamera.transform.localPosition = new Vector3(0f, crouchHeight * cameraHeightFactor, 0.3f);
                 // 손들의 위치 변경
                 leftHand.transform.localPosition = new Vector3(leftHand.transform.localPosition.x, crouchHeight / 2f, leftHand.transform.localPosition.z);
                 rightHand.transform.localPosition = new Vector3(rightHand.transform.localPosition.x, crouchHeight / 2f, rightHand.transform.localPosition.z);
