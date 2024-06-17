@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor.XR.LegacyInputHelpers;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -255,17 +257,19 @@ namespace eneru7i
         /// <summary>
         /// 숙이기
         /// </summary>
-        public void Crouch()
+        public IEnumerator Crouch()
         {
             if (!isCrouch && isGround)
             {
                 // 플레이어를 숙였을 때의 처리
                 animator.SetBool("Crouch", true);
+
+                yield return new WaitForSeconds(1f);
                 // 컬라이더로 앉은 키 처리
                 playerCollider.height = crouchHeight;
-                playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z);
+                playerCollider.center = new Vector3(playerCollider.center.x, crouchHeight / 2f, playerCollider.center.z + 0.15f);
                 // 카메라 위치 조정
-                mainCamera.transform.localPosition = new Vector3(0f, crouchHeight * cameraHeightFactor, 0f);
+                mainCamera.transform.localPosition = new Vector3(0f, crouchHeight * cameraHeightFactor, 0.3f);
                 // 손들의 위치 변경
                 leftHand.transform.localPosition = new Vector3(leftHand.transform.localPosition.x, crouchHeight / 2f, leftHand.transform.localPosition.z);
                 rightHand.transform.localPosition = new Vector3(rightHand.transform.localPosition.x, crouchHeight / 2f, rightHand.transform.localPosition.z);
@@ -275,11 +279,13 @@ namespace eneru7i
             {
                 // 플레이어가 숙은 상태에서 일어났을 때의 처리
                 animator.SetBool("Crouch", false);
+
+                yield return new WaitForSeconds(1f);
                 // 컬라이더로 일어선 키 처리
                 playerCollider.height = originalHeight;
                 playerCollider.center = new Vector3(playerCollider.center.x, originalHeight / 2f, playerCollider.center.z);
                 // 카메라 위치 조정
-                mainCamera.transform.localPosition = new Vector3(0f, originalHeight * cameraHeightFactor, 0f);
+                mainCamera.transform.localPosition = new Vector3(0f, originalHeight * cameraHeightFactor, 0.15f);
                 // 손들의 위치 원위치
                 leftHand.transform.localPosition = new Vector3(leftHand.transform.localPosition.x, originalHeight, leftHand.transform.localPosition.z);
                 rightHand.transform.localPosition = new Vector3(rightHand.transform.localPosition.x, originalHeight, rightHand.transform.localPosition.z);
@@ -370,7 +376,7 @@ namespace eneru7i
         {
             if (context.performed)
             {
-                Crouch();
+                StartCoroutine(Crouch());
             }
         }
         #endregion
