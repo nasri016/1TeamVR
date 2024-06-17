@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.XR.LegacyInputHelpers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,6 +29,8 @@ namespace eneru7i
         bool isRunning = false;
         //앉아가는지 여부
         bool isCrouch = false;
+        //탐샌 여부
+        bool isSeek = false;
         //원래 키
         public float originalHeight;
         //앉은 키
@@ -51,6 +51,11 @@ namespace eneru7i
         private GameObject rightHandObject;
 
         public float cameraHeightFactor = 0.9f; // 카메라 높이 계수
+
+        // 오디오 관련 변수 추가
+        public AudioSource audioSource;
+        public AudioClip footstepClip;
+        private bool isWalking;
 
         void Start()
         {
@@ -80,6 +85,14 @@ namespace eneru7i
 
             animator = player.GetComponent<Animator>();
 
+            // AudioSource 컴포넌트 초기화
+            audioSource = player.GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = player.AddComponent<AudioSource>();
+            }
+            audioSource.clip = footstepClip;
+            audioSource.loop = true; // 발걸음 소리를 반복 재생하기 위해 루프 설정
         }
 
         /// <summary>
@@ -228,6 +241,17 @@ namespace eneru7i
             //이동 애니메이션 사용
             animator.SetFloat("MoveX", moveX * speedGain);
             animator.SetFloat("MoveY", moveZ * speedGain);
+            // 발걸음 소리 재생
+            if (move != Vector3.zero && isGround && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+                isWalking = true;
+            }
+            else if (move == Vector3.zero || !isGround)
+            {
+                audioSource.Stop();
+                isWalking = false;
+            }
         }
 
         /// <summary>
@@ -292,6 +316,18 @@ namespace eneru7i
                 isCrouch = false;
             }
         }
+
+        /// <summary>
+        /// 아이템을 들고 탐색하는 기능
+        /// </summary>
+        public void Seek()
+        {
+            if (isSeek = true)
+            {
+                Debug.Log("Seek");
+            }
+
+        }
         #endregion
 
         // Unity Events 메서드
@@ -350,6 +386,22 @@ namespace eneru7i
         public void OnRightInteract(InputAction.CallbackContext context)
         {
             right = context.action.ReadValue<float>() > 0.1f;
+        }
+
+        /// <summary>
+        /// 탐색하기 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnSeek(InputAction.CallbackContext context)
+        {
+           if (!isSeek)
+           {
+                isSeek = true;
+            }
+           else 
+           {
+                isSeek = false;
+           }
         }
 
         /// <summary>
