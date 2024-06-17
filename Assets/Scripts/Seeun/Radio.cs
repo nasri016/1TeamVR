@@ -1,29 +1,63 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Radio : MonoBehaviour
 {
-    //1. 게임 시작 시 라디오 오디오 소리 출력 , ui 출력
-    //2. 플레이어가 e키로 라디오를 끄면 소리랑 라디오 애니메이션이 꺼짐. 그리고 라디오가 꺼지는 애니메이션이 재생.
+    public AudioSource audioSource;
+    public Light Light;
+    public AudioSource offaudioSource;
+    public GameObject ui;
+    public Collider radioCollider;
+    public Collider paperCollider;
 
-    public AudioSource audioSource; // Unity 인스펙터에서 설정할 수 있도록 public으로 선언
-    //public Animator animator;       // Unity 인스펙터에서 설정할 수 있도록 public으로 선언
-    //public GameObject uiElement;    // 라디오 UI 요소
+    //private bool isInside = false; //플레이어가 콜라이더 안에 있는지의 여부를 추적
 
     void Start()
     {
-        // 게임 시작 시 오디오를 재생하고 UI를 활성화
+        // 게임 시작 시 오디오를 재생
         audioSource.Play();
-        //uiElement.SetActive(true);
+        //paperCollider.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            ui.SetActive(true);    
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            ui.SetActive(false);
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (radioCollider.enabled)
         {
-            audioSource.Stop();
-
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                audioSource.Stop();
+                offaudioSource.Play();
+                Light.enabled = !Light.enabled;
+                
+                ui.SetActive(false);
+                radioCollider.enabled = false;
+                //StartCoroutine(RadioColliderDelay(2));
+                StartCoroutine(PaperColliderDelay(2));
+            }
         }
+    }
+
+    IEnumerator PaperColliderDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);  // 지정된 시간(초)만큼 대기
+        paperCollider.enabled = true;            // 지연 후 콜라이더 활성화
     }
 }
