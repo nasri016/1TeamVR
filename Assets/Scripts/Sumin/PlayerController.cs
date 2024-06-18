@@ -29,7 +29,7 @@ namespace eneru7i
         bool isRunning = false;
         //앉아가는지 여부
         bool isCrouch = false;
-        //탐샌 여부
+        //탐색 여부
         bool isSeek = false;
         //원래 키
         public float originalHeight;
@@ -46,6 +46,11 @@ namespace eneru7i
         // 손 위치 트랜스폼
         public Transform leftHand;
         public Transform rightHand;
+        //탐색위치 오브젝트
+        public Transform seekpos;
+        // 탐색 중인 오브젝트
+        private GameObject seekObject;
+        private Quaternion seekObjectInitialRotation;
         // 손에 들고 있는 오브젝트
         private GameObject leftHandObject;
         private GameObject rightHandObject;
@@ -107,7 +112,7 @@ namespace eneru7i
                 Jump();
             }
             HandleInteractions();
-
+            Seek();
             Debug.DrawRay(this.transform.position + Vector3.up, Vector3.forward * 10, Color.red);
         }
 
@@ -175,7 +180,7 @@ namespace eneru7i
         private void TryPickupObject(ref GameObject handObject, Transform hand)
         {
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out RaycastHit hit, 1f))
+            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
             {
                 if (hit.collider.CompareTag("Interactable"))
                 {
@@ -204,7 +209,7 @@ namespace eneru7i
             RaycastHit hit;
 
             // Ray를 쏴서 충돌한 지점이 있다면
-            if (Physics.Raycast(ray, out hit, 1f))
+            if (Physics.Raycast(ray, out hit, 2f))
             {
                 // 충돌 지점의 위치를 아이템을 놓을 위치로 설정합니다.
                 handObject.transform.position = hit.point;
@@ -214,7 +219,7 @@ namespace eneru7i
 
             // 손에서 들고 있던 오브젝트의 Rigidbody가 존재한다면
             Rigidbody hitRb = handObject.GetComponent<Rigidbody>();
-            if (!hitRb != null)
+            if (hitRb != null)
             {
                 // Rigidbody의 Kinematic 속성을 해제합니다.
                 hitRb.isKinematic = false;
@@ -222,6 +227,51 @@ namespace eneru7i
 
             // 손에서 들고 있던 오브젝트를 null로 초기화합니다.
             handObject = null;
+        }
+
+        /// <summary>
+        /// 아이템을 들고 탐색하는 기능
+        /// </summary>
+        public void Seek()
+        {
+            if (isSeek)
+            {
+                Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+                if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+                {
+                    if (hit.collider.CompareTag("Paper")) // 태그 이름을 'Pape'로 수정
+                    {
+                        // 아이템을 Seekpos로 이동
+                        seekObject = hit.collider.gameObject;
+                        seekObject.transform.position = seekpos.position;
+                        seekObject.transform.SetParent(seekpos);
+
+                        // 탐색 중 마우스의 이동에 따라 아이템의 방향을 바꾸기
+                        seekObjectInitialRotation = seekObject.transform.rotation;
+                        Rigidbody hitRb = seekObject.GetComponent<Rigidbody>();
+                        if (hitRb != null)
+                        {
+                            hitRb.isKinematic = true;
+                        }
+                    }
+                }
+
+                // 아이템의 방향을 마우스 이동에 따라 조정
+                if (seekObject != null)
+                {
+                    Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+                    Quaternion rotation = Quaternion.Euler(-mouseDelta.y, mouseDelta.x, 0);
+                    seekObject.transform.rotation = seekObjectInitialRotation * rotation;
+                }
+            }
+            else if (!isSeek && seekObject != null)
+            {
+                Rigidbody hitRb = seekObject.GetComponent<Rigidbody>();
+                // 탐색 중지, 물체 내리기
+                seekObject.transform.SetParent(null);
+                seekObject = null;
+                hitRb.isKinematic = false;
+            }
         }
 
         /// <summary>
@@ -317,29 +367,19 @@ namespace eneru7i
             }
         }
 
-        /// <summary>
-        /// 아이템을 들고 탐색하는 기능
-        /// </summary>
-        public void Seek()
-        {
-            if (isSeek = true)
-            {
-                Debug.Log("Seek");
-            }
-
-        }
         #endregion
 
-        // Unity Events 메서드
-        #region unity event
-
+        #region Unity Events
         /// <summary>
         /// 이동 연결
         /// </summary>
         /// <param name="context"></param>
         public void OnMove(InputAction.CallbackContext context)
         {
-            moving = context.ReadValue<Vector2>();
+            if (!isSeek)
+            {
+                moving = context.ReadValue<Vector2>();
+            }
         }
 
         /// <summary>
@@ -348,7 +388,10 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnLook(InputAction.CallbackContext context)
         {
-            look = context.ReadValue<Vector2>();
+            if (!isSeek)
+            {
+                look = context.ReadValue<Vector2>();
+            }
         }
 
         /// <summary>
@@ -357,7 +400,7 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (!isSeek && context.performed)
             {
                 if (isCrouch)
                 {
@@ -365,7 +408,7 @@ namespace eneru7i
                 }
                 else
                 {
-                    jump = true;  // 점프 상태 설정
+                    jump = true;
                 }
             }
         }
@@ -376,7 +419,10 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnLeftInteract(InputAction.CallbackContext context)
         {
-            left = context.action.ReadValue<float>() > 0.1f;
+            if (!isSeek)
+            {
+                left = context.action.ReadValue<float>() > 0.1f;
+            }
         }
 
         /// <summary>
@@ -385,7 +431,10 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnRightInteract(InputAction.CallbackContext context)
         {
-            right = context.action.ReadValue<float>() > 0.1f;
+            if (!isSeek)
+            {
+                right = context.action.ReadValue<float>() > 0.1f;
+            }
         }
 
         /// <summary>
@@ -394,14 +443,15 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnSeek(InputAction.CallbackContext context)
         {
-           if (!isSeek)
-           {
-                isSeek = true;
+            if (context.performed)
+            {
+                isSeek = !isSeek;
+                if (!isSeek && seekObject != null)
+                {
+                    seekObject.transform.SetParent(null);
+                    seekObject = null;
+                }
             }
-           else 
-           {
-                isSeek = false;
-           }
         }
 
         /// <summary>
@@ -410,13 +460,16 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnRun(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (!isSeek)
             {
-                Running(true);  // 달리기 시작
-            }
-            else if (context.canceled)
-            {
-                Running(false);  // 달리기 멈춤
+                if (context.started)
+                {
+                    Running(true);
+                }
+                else if (context.canceled)
+                {
+                    Running(false);
+                }
             }
         }
 
@@ -426,12 +479,13 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnCrouch(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (!isSeek && context.performed)
             {
                 StartCoroutine(Crouch());
             }
         }
         #endregion
+
 
         /// <summary>
         /// 물체 충돌 이벤트
@@ -439,10 +493,10 @@ namespace eneru7i
         /// <param name="collision"></param>
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject)
-            {
-                isGround = true;
-            }
+    
+             isGround = true;
+            
         }
     }
 }
+
