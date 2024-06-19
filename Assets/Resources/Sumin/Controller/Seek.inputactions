@@ -1,0 +1,34 @@
+{
+    "name": "Seek",
+    "maps": [
+        {
+            "name": "Seek",
+            "id": "97b92120-b808-4984-92b7-aaeb2722397e",
+            "actions": [
+                {
+                    "name": "Seek",
+                    "type": "Button",
+                    "id": "cfc62b0e-eb41-4d63-b102-0f4372575697",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4c30da81-c915-4e1d-8470-607fac85230e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Seek",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
