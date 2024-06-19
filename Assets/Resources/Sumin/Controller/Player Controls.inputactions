@@ -71,7 +71,7 @@
                 {
                     "name": "Seek",
                     "type": "Button",
-                    "id": "764e68c8-a0d6-4a4e-9250-3ab3979a7a9d",
+                    "id": "ed0898de-12c0-45b4-a7c7-dbf5a46b3e89",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -323,7 +323,7 @@
                 },
                 {
                     "name": "",
-                    "id": "bde95722-9bdf-4aa4-9983-3f0a1c398d26",
+                    "id": "39688f5e-a6c8-4f9a-8c07-5247cb1a1241",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",

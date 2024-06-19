@@ -4,58 +4,56 @@ using UnityEngine.InputSystem;
 
 namespace eneru7i
 {
-    /// <summary>
-    /// 플레이어 컨트롤러
-    /// </summary>
     public class PlayerController : MonoBehaviour
     {
-        //플레이어
-        public GameObject player;
-        //카메라
+        // 플레이어
+        PlayerController player;
+        // 탐색 오브젝트
+        SeekObject seekobj;
+
+        // 카메라
         public Camera mainCamera;
-        //마우스 감도
+        // 마우스 감도
         public float mouseSensitivity = 100f;
-        //이동속도
+        // 이동속도
         public float speed = 2f;
-        //카메라 상하 각도
+        // 카메라 상하 각도
         float xRotation = 0f;
-        //리지드바디
+        // 리지드바디
         Rigidbody rb;
-        //애니메이터
+        // 애니메이터
         Animator animator;
-        //땅에 닿는지 여부
+        // 땅에 닿는지 여부
         bool isGround = true;
-        //달리는지 여부
+        // 달리는지 여부
         bool isRunning = false;
-        //앉아가는지 여부
+        // 앉아가는지 여부
         bool isCrouch = false;
-        //탐색 여부
-        bool isSeek = false;
-        //원래 키
+        // 원래 키
         public float originalHeight;
-        //앉은 키
+        // 앉은 키
         public float crouchHeight;
-        //컬라이더
+        // 컬라이더
         CapsuleCollider playerCollider;
-        //인풋시스템 
+        // 인풋시스템 
         private Vector2 moving;
         private Vector2 look;
         private bool jump;
         private bool left;
         private bool right;
+        //탐색 여부
+        public bool isSeek = false;
+
         // 손 위치 트랜스폼
         public Transform leftHand;
         public Transform rightHand;
-        //탐색위치 오브젝트
-        public Transform seekpos;
-        // 탐색 중인 오브젝트
-        private GameObject seekObject;
-        private Quaternion seekObjectInitialRotation;
+
         // 손에 들고 있는 오브젝트
         private GameObject leftHandObject;
         private GameObject rightHandObject;
 
-        public float cameraHeightFactor = 0.9f; // 카메라 높이 계수
+        // 카메라 높이 계수
+        public float cameraHeightFactor = 0.9f;
 
         // 오디오 관련 변수 추가
         public AudioSource audioSource;
@@ -64,10 +62,7 @@ namespace eneru7i
 
         void Start()
         {
-            if (player == null)
-            {
-                player = this.gameObject;
-            }
+            player = this;
 
             if (mainCamera == null)
             {
@@ -75,29 +70,21 @@ namespace eneru7i
             }
 
             rb = player.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = player.AddComponent<Rigidbody>();
-            }
             rb.constraints = RigidbodyConstraints.FreezeRotation;
 
             playerCollider = player.GetComponent<CapsuleCollider>();
-            if (playerCollider == null)
-            {
-                playerCollider = player.AddComponent<CapsuleCollider>();
-            }
             originalHeight = playerCollider.height;
 
             animator = player.GetComponent<Animator>();
 
             // AudioSource 컴포넌트 초기화
             audioSource = player.GetComponent<AudioSource>();
-            if (audioSource == null)
-            {
-                audioSource = player.AddComponent<AudioSource>();
-            }
             audioSource.clip = footstepClip;
-            audioSource.loop = true; // 발걸음 소리를 반복 재생하기 위해 루프 설정
+            // 발걸음 소리를 반복 재생하기 위해 루프 설정
+            audioSource.loop = true;
+
+            // SeekObject 컴포넌트를 찾습니다.
+            seekobj = FindObjectOfType<SeekObject>();          
         }
 
         /// <summary>
@@ -112,7 +99,6 @@ namespace eneru7i
                 Jump();
             }
             HandleInteractions();
-            Seek();
             Debug.DrawRay(this.transform.position + Vector3.up, Vector3.forward * 10, Color.red);
         }
 
@@ -224,54 +210,8 @@ namespace eneru7i
                 // Rigidbody의 Kinematic 속성을 해제합니다.
                 hitRb.isKinematic = false;
             }
-
-            // 손에서 들고 있던 오브젝트를 null로 초기화합니다.
+            // 손에 들고 있던 오브젝트를 null로 설정하여 손에서 놓았음을 표시합니다.
             handObject = null;
-        }
-
-        /// <summary>
-        /// 아이템을 들고 탐색하는 기능
-        /// </summary>
-        public void Seek()
-        {
-            if (isSeek)
-            {
-                Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-                if (Physics.Raycast(ray, out RaycastHit hit, 2f))
-                {
-                    if (hit.collider.CompareTag("Paper")) // 태그 이름을 'Pape'로 수정
-                    {
-                        // 아이템을 Seekpos로 이동
-                        seekObject = hit.collider.gameObject;
-                        seekObject.transform.position = seekpos.position;
-                        seekObject.transform.SetParent(seekpos);
-
-                        // 탐색 중 마우스의 이동에 따라 아이템의 방향을 바꾸기
-                        seekObjectInitialRotation = seekObject.transform.rotation;
-                        Rigidbody hitRb = seekObject.GetComponent<Rigidbody>();
-                        if (hitRb != null)
-                        {
-                            hitRb.isKinematic = true;
-                        }
-                    }
-                }
-
-                // 아이템의 방향을 마우스 이동에 따라 조정
-                if (seekObject != null)
-                {
-                    Vector2 mouseDelta = Mouse.current.delta.ReadValue();
-                    Quaternion rotation = Quaternion.Euler(-mouseDelta.y, mouseDelta.x, 0);
-                    seekObject.transform.rotation = seekObjectInitialRotation * rotation;
-                }
-            }
-            else if (!isSeek && seekObject != null)
-            {
-                Rigidbody hitRb = seekObject.GetComponent<Rigidbody>();
-                // 탐색 중지, 물체 내리기
-                seekObject.transform.SetParent(null);
-                seekObject = null;
-                hitRb.isKinematic = false;
-            }
         }
 
         /// <summary>
@@ -281,14 +221,14 @@ namespace eneru7i
         {
             float moveX = moving.x;
             float moveZ = moving.y;
-            //달리기 여부에 따라 이동속도 증가
+            // 달리기 여부에 따라 이동속도 증가
             float speedGain = isRunning ? 2 : 1;
-            //숙이기 여부에 따라 이동속도 감소
+            // 숙이기 여부에 따라 이동속도 감소
             float currentSpeed = isCrouch ? speed * 0.5f : speed;
-            //이동속도 계산
+            // 이동속도 계산
             Vector3 move = transform.right * moveX + transform.forward * moveZ;
             transform.position += move * currentSpeed * speedGain * Time.deltaTime;
-            //이동 애니메이션 사용
+            // 이동 애니메이션 사용
             animator.SetFloat("MoveX", moveX * speedGain);
             animator.SetFloat("MoveY", moveZ * speedGain);
             // 발걸음 소리 재생
@@ -404,7 +344,7 @@ namespace eneru7i
             {
                 if (isCrouch)
                 {
-                    Crouch();
+                    StartCoroutine(Crouch());
                 }
                 else
                 {
@@ -444,13 +384,18 @@ namespace eneru7i
         public void OnSeek(InputAction.CallbackContext context)
         {
             if (context.performed)
-            {
-                isSeek = !isSeek;
-                if (!isSeek && seekObject != null)
-                {
-                    seekObject.transform.SetParent(null);
-                    seekObject = null;
-                }
+            {         
+                 isSeek = !isSeek;
+                 seekobj.isSeek = !seekobj.isSeek;
+                 if (seekobj.isSeek)
+                 {
+                     seekobj.Seek();
+                 }
+                 else
+                 {
+                    seekobj.UnSeek();
+                 }
+                
             }
         }
 
@@ -486,17 +431,13 @@ namespace eneru7i
         }
         #endregion
 
-
         /// <summary>
         /// 물체 충돌 이벤트
         /// </summary>
         /// <param name="collision"></param>
         void OnCollisionEnter(Collision collision)
         {
-    
-             isGround = true;
-            
+            isGround = true;
         }
     }
 }
-
