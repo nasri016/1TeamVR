@@ -1,34 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-public class OpenAnimation : MonoBehaviour
+public class ClockBox : MonoBehaviour
 {
     //public Animator animator;
     public GameObject ui;
     public Animator animator;
     public Collider selfCollider;
+    public Collider ClockHandCollider;
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            StartCoroutine(BoxUiStart());
+            ui.SetActive(true);
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+                ui.SetActive(false);
                 animator.SetTrigger("isOpen");
                 selfCollider.enabled = false;
-
+                StartCoroutine(ClockHandDelay());
             }
         }
     }
 
-    IEnumerator BoxUiStart()
+    private void OnTriggerExit(Collider other)
     {
-        ui.SetActive(true);
-        yield return new WaitForSeconds(2);
-        ui.SetActive(false);
+        if (other.CompareTag("Player"))
+        {
+            ui.SetActive(false);
+        }
+    }
+
+    IEnumerator ClockHandDelay()
+    {
+        yield return new WaitForSeconds(1);
+        ClockHandCollider.enabled = true;
     }
 }
