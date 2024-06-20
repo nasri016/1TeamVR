@@ -1,63 +1,68 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.XR.LegacyInputHelpers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace eneru7i
 {
-    /// <summary>
-    /// 플레이어 컨트롤러
-    /// </summary>
     public class PlayerController : MonoBehaviour
     {
-        //플레이어
-        public GameObject player;
-        //카메라
+        // 플레이어
+        PlayerController player;
+        // 탐색 오브젝트
+        SeekObject seekobj;
+
+        // 카메라
         public Camera mainCamera;
-        //마우스 감도
+        // 마우스 감도
         public float mouseSensitivity = 100f;
-        //이동속도
+        // 이동속도
         public float speed = 2f;
-        //카메라 상하 각도
+        // 카메라 상하 각도
         float xRotation = 0f;
-        //리지드바디
+        // 리지드바디
         Rigidbody rb;
-        //애니메이터
+        // 애니메이터
         Animator animator;
-        //땅에 닿는지 여부
+        // 땅에 닿는지 여부
         bool isGround = true;
-        //달리는지 여부
+        // 달리는지 여부
         bool isRunning = false;
-        //앉아가는지 여부
+        // 앉아가는지 여부
         bool isCrouch = false;
-        //원래 키
+        // 원래 키
         public float originalHeight;
-        //앉은 키
+        // 앉은 키
         public float crouchHeight;
-        //컬라이더
+        // 컬라이더
         CapsuleCollider playerCollider;
-        //인풋시스템 
+        // 인풋시스템 
         private Vector2 moving;
         private Vector2 look;
         private bool jump;
         private bool left;
         private bool right;
+        //탐색 여부
+        public bool isSeek = false;
+
         // 손 위치 트랜스폼
         public Transform leftHand;
         public Transform rightHand;
+
         // 손에 들고 있는 오브젝트
         private GameObject leftHandObject;
         private GameObject rightHandObject;
 
-        public float cameraHeightFactor = 0.9f; // 카메라 높이 계수
+        // 카메라 높이 계수
+        public float cameraHeightFactor = 0.9f;
+
+        // 오디오 관련 변수 추가
+        public AudioSource audioSource;
+        public AudioClip footstepClip;
+        private bool isWalking;
 
         void Start()
         {
-            if (player == null)
-            {
-                player = this.gameObject;
-            }
+            player = this;
 
             if (mainCamera == null)
             {
@@ -65,21 +70,21 @@ namespace eneru7i
             }
 
             rb = player.GetComponent<Rigidbody>();
-            if (rb == null)
-            {
-                rb = player.AddComponent<Rigidbody>();
-            }
             rb.constraints = RigidbodyConstraints.FreezeRotation;
 
             playerCollider = player.GetComponent<CapsuleCollider>();
-            if (playerCollider == null)
-            {
-                playerCollider = player.AddComponent<CapsuleCollider>();
-            }
             originalHeight = playerCollider.height;
 
             animator = player.GetComponent<Animator>();
 
+            // AudioSource 컴포넌트 초기화
+            audioSource = player.GetComponent<AudioSource>();
+            audioSource.clip = footstepClip;
+            // 발걸음 소리를 반복 재생하기 위해 루프 설정
+            audioSource.loop = true;
+
+            // SeekObject 컴포넌트를 찾습니다.
+            seekobj = FindObjectOfType<SeekObject>();          
         }
 
         /// <summary>
@@ -94,7 +99,6 @@ namespace eneru7i
                 Jump();
             }
             HandleInteractions();
-
             Debug.DrawRay(this.transform.position + Vector3.up, Vector3.forward * 10, Color.red);
         }
 
@@ -162,7 +166,7 @@ namespace eneru7i
         private void TryPickupObject(ref GameObject handObject, Transform hand)
         {
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out RaycastHit hit, 1f))
+            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
             {
                 if (hit.collider.CompareTag("Interactable"))
                 {
@@ -191,7 +195,7 @@ namespace eneru7i
             RaycastHit hit;
 
             // Ray를 쏴서 충돌한 지점이 있다면
-            if (Physics.Raycast(ray, out hit, 1f))
+            if (Physics.Raycast(ray, out hit, 2f))
             {
                 // 충돌 지점의 위치를 아이템을 놓을 위치로 설정합니다.
                 handObject.transform.position = hit.point;
@@ -201,13 +205,12 @@ namespace eneru7i
 
             // 손에서 들고 있던 오브젝트의 Rigidbody가 존재한다면
             Rigidbody hitRb = handObject.GetComponent<Rigidbody>();
-            if (!hitRb != null)
+            if (hitRb != null)
             {
                 // Rigidbody의 Kinematic 속성을 해제합니다.
                 hitRb.isKinematic = false;
             }
-
-            // 손에서 들고 있던 오브젝트를 null로 초기화합니다.
+            // 손에 들고 있던 오브젝트를 null로 설정하여 손에서 놓았음을 표시합니다.
             handObject = null;
         }
 
@@ -218,16 +221,27 @@ namespace eneru7i
         {
             float moveX = moving.x;
             float moveZ = moving.y;
-            //달리기 여부에 따라 이동속도 증가
+            // 달리기 여부에 따라 이동속도 증가
             float speedGain = isRunning ? 2 : 1;
-            //숙이기 여부에 따라 이동속도 감소
+            // 숙이기 여부에 따라 이동속도 감소
             float currentSpeed = isCrouch ? speed * 0.5f : speed;
-            //이동속도 계산
+            // 이동속도 계산
             Vector3 move = transform.right * moveX + transform.forward * moveZ;
             transform.position += move * currentSpeed * speedGain * Time.deltaTime;
-            //이동 애니메이션 사용
+            // 이동 애니메이션 사용
             animator.SetFloat("MoveX", moveX * speedGain);
             animator.SetFloat("MoveY", moveZ * speedGain);
+            // 발걸음 소리 재생
+            if (move != Vector3.zero && isGround && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+                isWalking = true;
+            }
+            else if (move == Vector3.zero || !isGround)
+            {
+                audioSource.Stop();
+                isWalking = false;
+            }
         }
 
         /// <summary>
@@ -292,18 +306,20 @@ namespace eneru7i
                 isCrouch = false;
             }
         }
+
         #endregion
 
-        // Unity Events 메서드
-        #region unity event
-
+        #region Unity Events
         /// <summary>
         /// 이동 연결
         /// </summary>
         /// <param name="context"></param>
         public void OnMove(InputAction.CallbackContext context)
         {
-            moving = context.ReadValue<Vector2>();
+            if (!isSeek)
+            {
+                moving = context.ReadValue<Vector2>();
+            }
         }
 
         /// <summary>
@@ -312,7 +328,10 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnLook(InputAction.CallbackContext context)
         {
-            look = context.ReadValue<Vector2>();
+            if (!isSeek)
+            {
+                look = context.ReadValue<Vector2>();
+            }
         }
 
         /// <summary>
@@ -321,15 +340,15 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (!isSeek && context.performed)
             {
                 if (isCrouch)
                 {
-                    Crouch();
+                    StartCoroutine(Crouch());
                 }
                 else
                 {
-                    jump = true;  // 점프 상태 설정
+                    jump = true;
                 }
             }
         }
@@ -340,7 +359,10 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnLeftInteract(InputAction.CallbackContext context)
         {
-            left = context.action.ReadValue<float>() > 0.1f;
+            if (!isSeek)
+            {
+                left = context.action.ReadValue<float>() > 0.1f;
+            }
         }
 
         /// <summary>
@@ -349,7 +371,32 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnRightInteract(InputAction.CallbackContext context)
         {
-            right = context.action.ReadValue<float>() > 0.1f;
+            if (!isSeek)
+            {
+                right = context.action.ReadValue<float>() > 0.1f;
+            }
+        }
+
+        /// <summary>
+        /// 탐색하기 연결
+        /// </summary>
+        /// <param name="context"></param>
+        public void OnSeek(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {         
+                 isSeek = !isSeek;
+                 seekobj.isSeek = !seekobj.isSeek;
+                 if (seekobj.isSeek)
+                 {
+                     seekobj.Seek();
+                 }
+                 else
+                 {
+                    seekobj.UnSeek();
+                 }
+                
+            }
         }
 
         /// <summary>
@@ -358,13 +405,16 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnRun(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (!isSeek)
             {
-                Running(true);  // 달리기 시작
-            }
-            else if (context.canceled)
-            {
-                Running(false);  // 달리기 멈춤
+                if (context.started)
+                {
+                    Running(true);
+                }
+                else if (context.canceled)
+                {
+                    Running(false);
+                }
             }
         }
 
@@ -374,7 +424,7 @@ namespace eneru7i
         /// <param name="context"></param>
         public void OnCrouch(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (!isSeek && context.performed)
             {
                 StartCoroutine(Crouch());
             }
@@ -387,10 +437,7 @@ namespace eneru7i
         /// <param name="collision"></param>
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject)
-            {
-                isGround = true;
-            }
+            isGround = true;
         }
     }
 }

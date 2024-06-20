@@ -18,7 +18,7 @@ public class Radio : MonoBehaviour
     {
         // 게임 시작 시 오디오를 재생
         audioSource.Play();
-        //paperCollider.enabled = false;
+        paperCollider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,16 +41,19 @@ public class Radio : MonoBehaviour
     {
         if (radioCollider.enabled)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (other.CompareTag("Player"))
             {
-                audioSource.Stop();
-                offaudioSource.Play();
-                Light.enabled = !Light.enabled;
-                
-                ui.SetActive(false);
-                radioCollider.enabled = false;
-                //StartCoroutine(RadioColliderDelay(2));
-                StartCoroutine(PaperColliderDelay(2));
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    audioSource.Stop();
+                    offaudioSource.Play();
+                    Light.enabled = !Light.enabled;
+
+                    ui.SetActive(false);
+                    radioCollider.enabled = false;
+                    //StartCoroutine(RadioColliderDelay(2));
+                    StartCoroutine(PaperColliderDelay(2));
+                }
             }
         }
     }
