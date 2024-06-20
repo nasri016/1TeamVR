@@ -84,7 +84,7 @@ namespace eneru7i
             audioSource.loop = true;
 
             // SeekObject 컴포넌트를 찾습니다.
-            seekobj = FindObjectOfType<SeekObject>();          
+            seekobj = FindObjectOfType<SeekObject>();
         }
 
         /// <summary>
@@ -213,6 +213,31 @@ namespace eneru7i
             // 손에 들고 있던 오브젝트를 null로 설정하여 손에서 놓았음을 표시합니다.
             handObject = null;
         }
+
+        public void Seek()
+        {
+            if (!isSeek)
+            {
+                Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+                if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+                {
+                    if (hit.collider.CompareTag("Paper"))
+                    {
+                        mainCamera.transform.rotation = Quaternion.identity;
+                        isSeek = true;
+                        seekobj.isSeek = true;
+                        seekobj.Seek();
+                    }
+                }
+            }
+            else
+            {
+                isSeek = false;
+                seekobj.isSeek = false;
+                seekobj.UnSeek();
+            }
+        }
+
 
         /// <summary>
         /// 플레이어 이동
@@ -384,18 +409,8 @@ namespace eneru7i
         public void OnSeek(InputAction.CallbackContext context)
         {
             if (context.performed)
-            {         
-                 isSeek = !isSeek;
-                 seekobj.isSeek = !seekobj.isSeek;
-                 if (seekobj.isSeek)
-                 {
-                     seekobj.Seek();
-                 }
-                 else
-                 {
-                    seekobj.UnSeek();
-                 }
-                
+            {
+                Seek();
             }
         }
 

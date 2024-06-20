@@ -9991,6 +9991,60 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2289444408213984869, guid: a267c9098dc16ac43b9ffac5e12d41fb, type: 3}
   m_PrefabInstance: {fileID: 610787086}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &614367965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 614367966}
+  - component: {fileID: 614367967}
+  m_Layer: 9
+  m_Name: PaperPoint1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &614367966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614367965}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -4.845, y: 0.871, z: -5.108}
+  m_LocalScale: {x: 0.1, y: 0.100000024, z: 0.009999997}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2317854184952610788}
+  m_Father: {fileID: 1119117686}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &614367967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614367965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942d6039457c140408fc2c564d05975e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ui: {fileID: 5419991666646670069}
+  paper: {fileID: 0}
+  paperCollider: {fileID: 0}
+  box3: {fileID: 0}
+  box4: {fileID: 0}
+  box5: {fileID: 0}
+  box6: {fileID: 0}
+  box7: {fileID: 0}
+  box9: {fileID: 0}
 --- !u!1001 &620532295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18335,7 +18389,7 @@ Transform:
   - {fileID: 2065845289}
   - {fileID: 1446242310}
   - {fileID: 412160961}
-  - {fileID: 2317854184952610788}
+  - {fileID: 614367966}
   - {fileID: 187895298}
   - {fileID: 436903124}
   - {fileID: 45558883}
@@ -36080,7 +36134,6 @@ GameObject:
   - component: {fileID: 2317854183884959061}
   - component: {fileID: 4227296159300087062}
   - component: {fileID: 2317854183884959058}
-  - component: {fileID: 2377613559598335615}
   - component: {fileID: 4227296159300087064}
   m_Layer: 9
   m_Name: PaperBent_A
@@ -36196,25 +36249,12 @@ Transform:
   m_GameObject: {fileID: 2317854183884959056}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.42, y: 1.576, z: -4.945}
-  m_LocalScale: {x: 0.1, y: 0.100000024, z: 0.009999997}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1119117686}
+  m_Father: {fileID: 614367966}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2377613559598335615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2317854183884959056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 942d6039457c140408fc2c564d05975e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ui: {fileID: 5419991666646670069}
 --- !u!114 &2447029982366753486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37804,8 +37844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f29f76a7b6e26d4795ab5a85ec80d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seekobj: {fileID: 2317854183884959056}
   isSeek: 0
   seekpos: {fileID: 897275858}
+  originpos: {fileID: 614367966}
 --- !u!4 &4315725785059907869
 Transform:
   m_ObjectHideFlags: 0
